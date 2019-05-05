@@ -67,7 +67,11 @@ public class AuoBroadcastCommand implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("add")){
                     String messageToAdd = "";
                     for (int i=1; i<args.length; i++){
-                        messageToAdd += args[i] + " ";
+                        if (i == args.length-1){
+                            messageToAdd += args[i];
+                        }else {
+                            messageToAdd += args[i] + " ";
+                        }
                     }
                     List<String> currentMessages = messages.get().getStringList("messages");
                     currentMessages.add(messageToAdd);
