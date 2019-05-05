@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Autobroadcaster">
+    <output-path>E:/Testing Server/plugins</output-path>
+    <root id="archive" name="Autobroadcaster.jar">
+      <element id="module-output" name="Autobroadcaster" />
+    </root>
+  </artifact>
+</component>

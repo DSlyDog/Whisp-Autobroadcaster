@@ -1,0 +1,24 @@
+name: Autobroadcaster
+version: ${project.version}
+main: net.whispwriting.autobroadcaster.Autobroadcaster
+api-version: "1.13"
+prefix: Autobroadcaster
+authors: [WhispTheFox]
+description: An autobroadcaster plugin
+website: https://whispwriting.net
+
+commands:
+  autobroadcaster:
+    description: enables or disables the autobroadcaster
+    usage: /autobroadcaster
+    aliases: ab
+
+permissions:
+  Autobroadcaster.ab:
+    description: allows using /autobroadcaster
+    default: op
+  Autobroadcaster.*:
+    description: wildcard permission
+    default: op
+    children:
+      Autobroadcaster.ab: true
