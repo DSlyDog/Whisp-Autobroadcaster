@@ -3,11 +3,11 @@ package net.whispwriting.autobroadcaster.events;
 import net.whispwriting.autobroadcaster.files.BroadcastMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.TimerTask;
 
-public class AutoBroadcasterTask extends BukkitRunnable {
+public class AutoBroadcasterTask extends TimerTask {
     private static int counter;
     public BroadcastMessages messages;
 

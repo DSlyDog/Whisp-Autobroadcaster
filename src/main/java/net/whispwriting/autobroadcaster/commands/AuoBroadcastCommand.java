@@ -3,6 +3,7 @@ package net.whispwriting.autobroadcaster.commands;
 import net.whispwriting.autobroadcaster.Autobroadcaster;
 import net.whispwriting.autobroadcaster.events.AutoBroadcasterTask;
 import net.whispwriting.autobroadcaster.files.BroadcastMessages;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,15 +12,16 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class AuoBroadcastCommand implements CommandExecutor {
 
     private BroadcastMessages messages;
-    private BukkitTask task;
+    private AutoBroadcasterTask task;
     private Autobroadcaster plugin;
 
-    public AuoBroadcastCommand(BroadcastMessages msg, BukkitTask t, Autobroadcaster pl){
+    public AuoBroadcastCommand(BroadcastMessages msg, AutoBroadcasterTask t, Autobroadcaster pl){
         messages = msg;
         task = t;
         plugin = pl;
@@ -94,7 +96,8 @@ public class AuoBroadcastCommand implements CommandExecutor {
             messages.get().set("enabled", true);
             messages.save();
             messages.reload();
-            task = new AutoBroadcasterTask(messages, 0).runTaskTimer(plugin, 0, (messages.get().getInt("interval") * 100));
+            task = new AutoBroadcasterTask(messages, 0);
+            Bukkit.getScheduler().runTaskTimer(plugin, task, 0, messages.get().getInt("interval") * 20 * 60);
             sender.sendMessage(ChatColor.GREEN + "Autobroadcasts are now enabled.");
         } else {
             sender.sendMessage(ChatColor.AQUA + "AutoBroadcaster is already on.");
@@ -103,8 +106,7 @@ public class AuoBroadcastCommand implements CommandExecutor {
 
     private void abOff(CommandSender sender) {
         if (messages.get().getBoolean("enabled")) {
-            task.cancel();
-            messages.reload();
+            Bukkit.getScheduler().cancelTasks(plugin);
             messages.get().set("enabled", false);
             messages.save();
             messages.reload();
@@ -167,7 +169,7 @@ public class AuoBroadcastCommand implements CommandExecutor {
             messages.get().set("interval", newInterval);
             messages.save();
             messages.reload();
-            task = new AutoBroadcasterTask(messages, counter).runTaskTimer(plugin, 0, newInterval * 1200);
+            Bukkit.getScheduler().runTaskTimer(plugin, task,0, messages.get().getInt("interval") * 20 * 60);
             sender.sendMessage(ChatColor.GREEN+"Interval updated");
         }else{
             sender.sendMessage(ChatColor.RED+"Interval must be a number.");
